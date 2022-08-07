@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Link } from './links/entities/link.entity';
 import { LinksModule } from './links/links.module';
+import { LinkCategoriesModule } from './link-categories/link-categories.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { LinksModule } from './links/links.module';
       entities: [Link],
     }),
     LinksModule,
+    LinkCategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
