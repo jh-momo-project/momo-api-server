@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
+import { SuccessReponse } from 'src/common/responseGenerator';
 import { CreateLinkCategoryDto } from './dto/create-link-category.dto';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { LinkCategory } from './entities/link-category.entity';
@@ -11,38 +12,38 @@ export class LinksController {
 
   // linkCategories
   @Post('/categories')
-  createLinkCategory(@Body() createLinkCategoryDto: CreateLinkCategoryDto): Promise<LinkCategory> {
+  createLinkCategory(@Body() createLinkCategoryDto: CreateLinkCategoryDto): Promise<SuccessReponse<LinkCategory>> {
     return this.linksService.createLinkCategory(createLinkCategoryDto);
   }
 
   @Get('/categories')
-  getAllLinkCategory(): Promise<LinkCategory[]> {
+  getAllLinkCategory(): Promise<SuccessReponse<LinkCategory[]>> {
     return this.linksService.getAllLinkCategory();
   }
 
   @Get('/categories/:categoryId')
-  getLinkCategory(@Param('categoryId', ParseIntPipe) id: number): Promise<LinkCategory> {
+  getLinkCategory(@Param('categoryId', ParseIntPipe) id: number): Promise<SuccessReponse<LinkCategory>> {
     return this.linksService.getLinkCategory(id);
   }
 
   @Delete('/categories')
-  deleteLinkCategory(@Query('id', ParseIntPipe) id: number): Promise<string> {
+  deleteLinkCategory(@Query('id', ParseIntPipe) id: number): Promise<SuccessReponse<string>> {
     return this.linksService.deleteLinkCategory(id);
   }
 
   // links
   @Post()
-  createLink(@Body() createLinkDto: CreateLinkDto): Promise<Link> {
+  createLink(@Body() createLinkDto: CreateLinkDto): Promise<SuccessReponse<Link>> {
     return this.linksService.createLink(createLinkDto);
   }
 
   @Get('/:id')
-  getOneLink(@Param('id', ParseIntPipe) id: number): Promise<Link> {
+  getOneLink(@Param('id', ParseIntPipe) id: number): Promise<SuccessReponse<Link>> {
     return this.linksService.getSingleLink(id);
   }
 
   @Get()
-  getAllLinks(@Query('categoryId', ParseIntPipe) categoryId: number): Promise<Link[]> {
+  getAllLinks(@Query('categoryId', ParseIntPipe) categoryId: number): Promise<SuccessReponse<Link[]>> {
     if (categoryId) {
       return this.linksService.getLinksByCategories(categoryId);
     }
@@ -50,7 +51,7 @@ export class LinksController {
   }
 
   @Delete()
-  deleteSingleLink(@Query('id', ParseIntPipe) id: number): Promise<string> {
+  deleteSingleLink(@Query('id', ParseIntPipe) id: number): Promise<SuccessReponse<string>> {
     return this.linksService.deleteSingleLink(id);
   }
 }
