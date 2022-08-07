@@ -9,6 +9,22 @@ import { LinksService } from './links.service';
 export class LinksController {
   constructor(private readonly linksService: LinksService) {}
 
+  // linkCategories
+  @Post('/categories')
+  createLinkCategory(@Body() createLinkCategoryDto: CreateLinkCategoryDto): Promise<LinkCategory> {
+    return this.linksService.createLinkCategory(createLinkCategoryDto);
+  }
+
+  @Get('/categories/')
+  getAllLinkCategory(): Promise<LinkCategory[]> {
+    return this.linksService.getAllLinkCategory();
+  }
+
+  @Get('/categories/:categoryId')
+  getLinkCategory(@Param('categoryId', ParseIntPipe) id: number): Promise<LinkCategory> {
+    return this.linksService.getLinkCategory(id);
+  }
+
   // links
   @Post()
   createLink(@Body() createLinkDto: CreateLinkDto): Promise<Link> {
@@ -28,11 +44,5 @@ export class LinksController {
   @Delete('/:id')
   deleteSingleLink(@Param('id', ParseIntPipe) id: number): Promise<string> {
     return this.linksService.deleteSingleLink(id);
-  }
-
-  // linkCategories
-  @Post('/category')
-  createLinkCategory(@Body() createLinkCategoryDto: CreateLinkCategoryDto): Promise<LinkCategory> {
-    return this.linksService.createLinkCategory(createLinkCategoryDto);
   }
 }

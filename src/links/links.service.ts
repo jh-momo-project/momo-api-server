@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateLinkCategoryDto } from './dto/create-link-category.dto';
@@ -15,10 +15,32 @@ export class LinksService {
     private linkCategoriesRepository: Repository<LinkCategory>,
   ) {}
 
+  // link-categories
+  async createLinkCategory(createLinkCategoryDto: CreateLinkCategoryDto): Promise<LinkCategory> {
+    const { title } = createLinkCategoryDto;
+    const linkCategory = this.linkCategoriesRepository.create({ title });
+    await this.linkCategoriesRepository.save(linkCategory);
+    return linkCategory;
+  }
+
+  async getAllLinkCategory(): Promise<LinkCategory[]> {
+    const categories = await this.linkCategoriesRepository.find();
+    return categories;
+  }
+
+  async getLinkCategory(id: number): Promise<LinkCategory> {
+    const category = this.linkCategoriesRepository.findOneBy({ id });
+    return category;
+  }
+
   // links
   async createLink(createLinkDto: CreateLinkDto): Promise<Link> {
-    const { url, title, description } = createLinkDto;
-    const newLink = this.linksRepository.create({ url, title, description });
+    const { url, title, description, categoryId } = createLinkDto;
+    const category = await this.linkCategoriesRepository.findOneBy({ id: categoryId });
+    if (!category) {
+      throw new NotFoundException('해당 카테고리가 없습니다.');
+    }
+    const newLink = this.linksRepository.create({ url, title, description, category });
     await this.linksRepository.save(newLink);
     return newLink;
   }
@@ -36,13 +58,5 @@ export class LinksService {
   async deleteSingleLink(id: number) {
     await this.linksRepository.delete({ id });
     return 'completed';
-  }
-
-  // link-categories
-  async createLinkCategory(createLinkCategoryDto: CreateLinkCategoryDto): Promise<LinkCategory> {
-    const { title } = createLinkCategoryDto;
-    const linkCategory = this.linkCategoriesRepository.create({ title });
-    await this.linkCategoriesRepository.save(linkCategory);
-    return linkCategory;
   }
 }
