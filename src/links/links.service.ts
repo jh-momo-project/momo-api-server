@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateLinkCategoryDto } from './dto/create-link-category.dto';
 import { CreateLinkDto } from './dto/create-link.dto';
+import { LinkCategory } from './entities/link-category.entity';
 import { Link } from './entities/link.entity';
 
 @Injectable()
@@ -9,8 +11,11 @@ export class LinksService {
   constructor(
     @InjectRepository(Link)
     private linksRepository: Repository<Link>,
+    @InjectRepository(LinkCategory)
+    private linkCategoriesRepository: Repository<LinkCategory>,
   ) {}
 
+  // links
   async createLink(createLinkDto: CreateLinkDto): Promise<Link> {
     const { url, title, description } = createLinkDto;
     const newLink = this.linksRepository.create({ url, title, description });
@@ -31,5 +36,13 @@ export class LinksService {
   async deleteSingleLink(id: number) {
     await this.linksRepository.delete({ id });
     return 'completed';
+  }
+
+  // link-categories
+  async createLinkCategory(createLinkCategoryDto: CreateLinkCategoryDto): Promise<LinkCategory> {
+    const { title } = createLinkCategoryDto;
+    const linkCategory = this.linkCategoriesRepository.create({ title });
+    await this.linkCategoriesRepository.save(linkCategory);
+    return linkCategory;
   }
 }

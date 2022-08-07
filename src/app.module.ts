@@ -2,10 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { LinkCategory } from './links/entities/link-category.entity';
 import { Link } from './links/entities/link.entity';
 import { LinksModule } from './links/links.module';
-import { LinkCategoriesModule } from './link-categories/link-categories.module';
-import { LinkCategory } from './link-categories/entities/link-category.entity';
 
 @Module({
   imports: [
@@ -20,7 +19,6 @@ import { LinkCategory } from './link-categories/entities/link-category.entity';
       entities: [Link, LinkCategory],
     }),
     LinksModule,
-    LinkCategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
