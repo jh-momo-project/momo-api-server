@@ -33,6 +33,11 @@ export class LinksService {
     return category;
   }
 
+  async deleteLinkCategory(id: number): Promise<string> {
+    await this.linkCategoriesRepository.delete({ id });
+    return 'success';
+  }
+
   // links
   async createLink(createLinkDto: CreateLinkDto): Promise<Link> {
     const { url, title, description, categoryId } = createLinkDto;

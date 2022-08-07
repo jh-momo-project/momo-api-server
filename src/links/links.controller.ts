@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
 import { CreateLinkCategoryDto } from './dto/create-link-category.dto';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { LinkCategory } from './entities/link-category.entity';
@@ -15,7 +15,7 @@ export class LinksController {
     return this.linksService.createLinkCategory(createLinkCategoryDto);
   }
 
-  @Get('/categories/')
+  @Get('/categories')
   getAllLinkCategory(): Promise<LinkCategory[]> {
     return this.linksService.getAllLinkCategory();
   }
@@ -23,6 +23,11 @@ export class LinksController {
   @Get('/categories/:categoryId')
   getLinkCategory(@Param('categoryId', ParseIntPipe) id: number): Promise<LinkCategory> {
     return this.linksService.getLinkCategory(id);
+  }
+
+  @Delete('/categories')
+  deleteLinkCategory(@Query('id', ParseIntPipe) id: number): Promise<string> {
+    return this.linksService.deleteLinkCategory(id);
   }
 
   // links
@@ -41,8 +46,8 @@ export class LinksController {
     return this.linksService.getAllLink();
   }
 
-  @Delete('/:id')
-  deleteSingleLink(@Param('id', ParseIntPipe) id: number): Promise<string> {
+  @Delete()
+  deleteSingleLink(@Query('id', ParseIntPipe) id: number): Promise<string> {
     return this.linksService.deleteSingleLink(id);
   }
 }
