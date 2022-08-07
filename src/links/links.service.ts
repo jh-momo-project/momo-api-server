@@ -17,4 +17,14 @@ export class LinksService {
     await this.linksRepository.save(newLink);
     return newLink;
   }
+
+  async getAllLink(): Promise<Link[]> {
+    const links = await this.linksRepository.find();
+    return links;
+  }
+
+  async getSingleLink(id: number): Promise<Link> {
+    const link = await this.linksRepository.findOneBy({ id });
+    return link;
+  }
 }

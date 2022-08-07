@@ -13,13 +13,13 @@ export class LinksController {
   }
 
   @Get('/:id')
-  getOneLink(@Param('id', ParseIntPipe) id: number) {
-    return 'get single link' + id;
+  getOneLink(@Param('id', ParseIntPipe) id: number): Promise<Link> {
+    return this.linksService.getSingleLink(id);
   }
 
   @Get()
-  getAllLinks() {
-    return 'get link list';
+  getAllLinks(): Promise<Link[]> {
+    return this.linksService.getAllLink();
   }
 
   @Delete('/:id')
