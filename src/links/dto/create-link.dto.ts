@@ -12,7 +12,4 @@ export class CreateLinkDto {
 
   @IsOptional()
   description: string;
-
-  @IsOptional()
-  thumbnail: File | string;
 }

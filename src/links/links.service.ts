@@ -11,8 +11,10 @@ export class LinksService {
     private linksRepository: Repository<Link>,
   ) {}
 
-  create(createLinkDto: CreateLinkDto) {
-    // create logic
-    return createLinkDto;
+  async createLink(createLinkDto: CreateLinkDto): Promise<Link> {
+    const { url, title, description } = createLinkDto;
+    const newLink = this.linksRepository.create({ url, title, description });
+    await this.linksRepository.save(newLink);
+    return newLink;
   }
 }

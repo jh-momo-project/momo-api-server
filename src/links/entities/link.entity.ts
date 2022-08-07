@@ -19,6 +19,6 @@ export class Link {
 
   // directory: number; // directoryId
 
-  @Column()
-  order: number;
+  // @Column()
+  // order: number;
 }
