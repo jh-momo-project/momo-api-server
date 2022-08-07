@@ -8,6 +8,7 @@ export class LinkCategory {
   @Column()
   title: string;
 
+  @Column()
   @Generated('increment')
   order: number;
 }
