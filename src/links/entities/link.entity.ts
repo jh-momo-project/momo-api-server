@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Link {
@@ -19,6 +19,7 @@ export class Link {
 
   // directory: number; // directoryId
 
-  // @Column()
-  // order: number;
+  @Column()
+  @Generated('increment')
+  order: number;
 }
