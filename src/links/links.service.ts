@@ -55,6 +55,15 @@ export class LinksService {
     return links;
   }
 
+  async getLinksByCategories(categoryId: number): Promise<Link[]> {
+    const category = await this.linkCategoriesRepository.findOneBy({ id: categoryId });
+    if (!category) {
+      throw new NotFoundException('해당 카테고리가 없습니다.');
+    }
+    const links = await this.linksRepository.find({ where: { category } });
+    return links;
+  }
+
   async getSingleLink(id: number): Promise<Link> {
     const link = await this.linksRepository.findOneBy({ id });
     return link;

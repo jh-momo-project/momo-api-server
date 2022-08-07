@@ -42,7 +42,10 @@ export class LinksController {
   }
 
   @Get()
-  getAllLinks(): Promise<Link[]> {
+  getAllLinks(@Query('categoryId', ParseIntPipe) categoryId: number): Promise<Link[]> {
+    if (categoryId) {
+      return this.linksService.getLinksByCategories(categoryId);
+    }
     return this.linksService.getAllLink();
   }
 
