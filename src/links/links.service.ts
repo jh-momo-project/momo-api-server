@@ -27,4 +27,9 @@ export class LinksService {
     const link = await this.linksRepository.findOneBy({ id });
     return link;
   }
+
+  async deleteSingleLink(id: number) {
+    await this.linksRepository.delete({ id });
+    return 'completed';
+  }
 }

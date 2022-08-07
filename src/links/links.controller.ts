@@ -23,7 +23,7 @@ export class LinksController {
   }
 
   @Delete('/:id')
-  deleteSingleLink(@Param('id') id: string) {
-    return 'delete single link';
+  deleteSingleLink(@Param('id', ParseIntPipe) id: number): Promise<string> {
+    return this.linksService.deleteSingleLink(id);
   }
 }
