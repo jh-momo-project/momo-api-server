@@ -1,4 +1,5 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Link } from './link.entity';
 
 @Entity()
 export class LinkCategory {
@@ -11,4 +12,7 @@ export class LinkCategory {
   @Column()
   @Generated('increment')
   order: number;
+
+  @OneToMany((type) => Link, (link) => link.category)
+  links: Link[];
 }

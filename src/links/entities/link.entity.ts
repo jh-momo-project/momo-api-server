@@ -1,4 +1,5 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { LinkCategory } from './link-category.entity';
 
 @Entity()
 export class Link {
@@ -17,9 +18,10 @@ export class Link {
   @Column({ default: null })
   thumbnail: string;
 
-  // directory: number; // directoryId
-
   @Column()
   @Generated('increment')
   order: number;
+
+  @ManyToOne((type) => LinkCategory, (category) => category.links, { eager: true })
+  category: LinkCategory;
 }
